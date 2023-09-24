@@ -3,7 +3,7 @@
 FROM gcc:13 as openssl-quic-builder
 
 # ignore these default arguments values, they are overridden by the build command with updated values.
-ARG OPENSSL_URL=https://codeload.github.com/quictls/openssl/tar.gz/OpenSSL_1_1_1u+quic
+ARG OPENSSL_URL=https://codeload.github.com/quictls/openssl/tar.gz/OpenSSL_1_1_1v+quic
 ARG OPENSSL_OPTS="enable-tls1_3 \
     -g -O3 -fstack-protector-strong -Wformat -Werror=format-security \
     -DOPENSSL_TLS_SECURITY_LEVEL=2 -DOPENSSL_USE_NODELETE -DL_ENDIAN \
@@ -32,7 +32,7 @@ RUN mkdir -p /tmp/openssl /cache && \
 FROM gcc:13 as haproxy-builder
 
 # ignore these default arguments values, they are overridden by the build command with updated values.
-ARG HAPROXY_URL=http://www.haproxy.org/download/2.8/src/haproxy-2.8.1.tar.gz
+ARG HAPROXY_URL=http://www.haproxy.org/download/2.8/src/haproxy-2.8.3.tar.gz
 ARG HAPROXY_CFLAGS="-O3 -g -Wall -Wextra -Wundef -Wdeclaration-after-statement -Wfatal-errors -Wtype-limits -Wshift-negative-value -Wshift-overflow=2 -Wduplicated-cond -Wnull-dereference -fwrapv -Wno-address-of-packed-member -Wno-unused-label -Wno-sign-compare -Wno-unused-parameter -Wno-clobbered -Wno-missing-field-initializers -Wno-cast-function-type -Wno-string-plus-int -Wno-atomic-alignment"
 ARG HAPROXY_LDFLAGS=""
 ARG HAPROXY_OPTS="TARGET=linux-glibc \
@@ -43,7 +43,7 @@ ARG HAPROXY_OPTS="TARGET=linux-glibc \
     USE_QUIC=1 \
     USE_THREAD=1 \
     USE_NS=1 \
-    USE_SLZ= USE_ZLIB=1 \
+    USE_SLZ=1 USE_ZLIB= \
     "
 
 # install dependencies (pcre2)
